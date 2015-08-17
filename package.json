@@ -1,0 +1,17 @@
+{
+  "name": "land",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify -v -d -t [ reactify --es6 ] main.js -o compiled.js & node server.js"
+  },
+  "author": "Olivia Jack",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^11.0.0",
+    "peerjs": "^0.3.14",
+    "watchify": "^3.3.0"
+  }
+}

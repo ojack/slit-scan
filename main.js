@@ -1,100 +1,62 @@
  var Peer = require('peerjs');
  var SlitScan= require('./js/SlitScan.js');
+ var CombinedSlitScan= require('./js/CombinedSlitScan.js');
 
-var slit;
+var peer_api_key = '00gwj72654mfgvi';
+console.log("id is "+ id + " host "+ host)
+var slit, peer, call, localStream, remoteStream, slit;
   // Compatibility shim
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     // PeerJS object
-    var peer = new Peer({ key: '00gwj72654mfgvi', debug: 3});
+ 
+   
 
-    peer.on('open', function(){
-      $('#my-id').text(peer.id);
-    });
-
-    // Receiving a call
-    peer.on('call', function(call){
-      // Answer the call automatically (instead of prompting user) for demo purposes
-      call.answer(window.localStream);
-      step3(call);
-    });
-    peer.on('error', function(err){
-      alert(err.message);
-      // Return to step 2 if error occurs
-      step2();
-    });
-
-    // Click handlers setup
-    $(function(){
-      $('#make-call').click(function(){
-        // Initiate a call!
-        var call = peer.call($('#callto-id').val(), window.localStream);
-
-        step3(call);
-      });
-
-      $('#end-call').click(function(){
-        window.existingCall.close();
-        step2();
-      });
-
-      // Retry if getUserMedia fails
-      $('#step1-retry').click(function(){
-        $('#step1-error').hide();
-        step1();
-      });
-
-      // Get things started
-      step1();
-    });
-
-    function step1 () {
-      // Get audio/video stream
-      navigator.getUserMedia({audio: false, video: true}, function(stream){
-        // Set your video displays
-        $('#my-video').prop('src', URL.createObjectURL(stream));
-     
-         slit = new SlitScan(document.getElementById('my-video'));
-        window.localStream = stream;
-        step2();
-        render();
-      }, function(){ $('#step1-error').show(); });
+    // peer.on('open', function(){
+    //   $('#my-id').text(peer.id);
+    // });
+    initLocalStream();
+    function initLocalStream(){
+       navigator.getUserMedia({audio: false, video: true}, function(stream){
+          localStream = stream;
+          document.getElementById("local-stream").src = URL.createObjectURL(stream);
+        //  $('#my-video').prop('src', URL.createObjectURL(stream));
+             if(host) {
+                peer = new Peer(id, {key: peer_api_key, debug: 3});
+                console.log(peer);
+                peer.on('call', function(call){
+                  console.log("got call");
+                // Answer the call automatically (instead of prompting user) for demo purposes
+                    call.answer(localStream);
+                     call.on('stream', function(theirStream){
+                       document.getElementById("remote-stream").src = URL.createObjectURL(theirStream);
+                     // $('#their-video').prop('src', URL.createObjectURL(theirStream));
+                       slit = new CombinedSlitScan(document.getElementById("local-stream"), document.getElementById("remote-stream"));
+                       addFrame();
+                 });
+      
+              });
+          } else {
+              peer = new Peer({key: peer_api_key, debug: 3});
+              call = peer.call(id, localStream);
+                call.on('stream', function(theirStream){
+                      //$('#their-video').prop('src', URL.createObjectURL(theirStream));
+                       document.getElementById("remote-stream").src = URL.createObjectURL(theirStream);
+                      slit = new CombinedSlitScan(document.getElementById("local-stream"), document.getElementById("remote-stream"));
+                      addFrame();
+                 });
+          }
+        }, function(err){
+          console.log(err);
+        });
+    
     }
 
-    function render(){
-     
-      
-        setTimeout(function() {
-        requestAnimationFrame(render);
+function addFrame(){
+  // console.log("adding remote");
+   setTimeout(function() {
+        requestAnimationFrame(addFrame);
          slit.addFrame();
         // Drawing code goes here
-    }, 10);
-    }
-
-    function step2 () {
-      $('#step1, #step3').hide();
-      $('#step2').show();
-    }
-
-    function step3 (call) {
-      // Hang up on an existing call if present
-      if (window.existingCall) {
-        window.existingCall.close();
-      }
-
-      // Wait for stream on the call, then set peer video display
-      call.on('stream', function(stream){
-        $('#their-video').prop('src', URL.createObjectURL(stream));
-      
-
-      });
-
-      // UI stuff
-      window.existingCall = call;
-      $('#their-id').text(call.peer);
-      call.on('close', step2);
-      $('#step1, #step2').hide();
-      $('#step3').show();
-
-      //  var slit = new SlitScan();
-    }
+    }, 60);
+}

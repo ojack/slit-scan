@@ -1,5 +1,6 @@
 ## SLIT SCAN
 Experiments with webRTC and slit-scan, in collaboration with Daniel Pinheiro and Lisa Parra.
+#[demo](http://ojack.github.io/slit-scan)
 
 'm' to change modes
 </br>

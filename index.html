@@ -74,6 +74,11 @@ label{
 #communication{
   color: #CCFF66
 }
+
+#vid-container{
+  visibility: visible;
+}
+
 </style>
 </head>
 
@@ -94,11 +99,11 @@ label{
   <button id="go-join" type="button">GO</button>
 </form>
 </div>
-
+<div id="vid-container">
  
-        <video id="remote-stream" muted="true" autoplay></video>
+        <video id="remote-stream" muted="false" autoplay></video>
         <video id="local-stream" muted="true" autoplay></video>
-
+</div>
   <script src="./compiled.js"></script>
 </body>
 </html>

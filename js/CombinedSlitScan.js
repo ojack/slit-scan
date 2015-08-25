@@ -87,18 +87,19 @@ var CombinedSlitScan = class CombinedSlitScan {
      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT*(1.5-this.localVolume/50), STEP, HEIGHT*this.localVolume/50);
       this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT*1.5, STEP, HEIGHT*this.remoteVolume/50);
    } else {
-      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT*0.5, STEP, HEIGHT);
-      this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT*1.5, STEP, HEIGHT);
+      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, 0, STEP, HEIGHT);
+      this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT*2, STEP, HEIGHT);
+       if(this.outIndex%2==0){
+       this.context.drawImage(this.canvas, this.outIndex, 0, STEP, HEIGHT, this.outIndex, HEIGHT, STEP, HEIGHT);
+     } else {
+       this.context.drawImage(this.canvas, this.outIndex, HEIGHT*2, STEP, HEIGHT, this.outIndex, HEIGHT, STEP, HEIGHT);
+     }
    }
     
      
 
      // // 77 draw alternating
-     // if(this.outIndex%2==0){
-     //   this.context.drawImage(this.canvas, this.outIndex, 0, STEP, HEIGHT, this.outIndex, HEIGHT*2, STEP, HEIGHT);
-     // } else {
-     //   this.context.drawImage(this.canvas, this.outIndex, HEIGHT, STEP, HEIGHT, this.outIndex, HEIGHT*2, STEP, HEIGHT);
-     // }
+    
     
       
         this.outIndex += STEP;

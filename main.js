@@ -136,10 +136,24 @@ function addFrame(){
     }, 1000/FPS);
 }
 
+function toggleMute(){
+  var m = document.getElementById("remote-stream").muted;
+  document.getElementById("remote-stream").muted = m==true ? false: true;
+  console.log("muted " + document.getElementById("remote-stream").muted);
+}
+
+function toggleVideo(){
+  var v = document.getElementById("vid-container").style.visibility;
+  v = v=="hidden" ? "visible": "hidden";
+  document.getElementById("vid-container").style.visibility = v;
+}
 function checkKey(e){
   e = e || window.event;
-  e.preventDefault();
+  
+  console.log(e);
   if(slit!=null){
+    e.preventDefault();
+    //arrow keys change step size
     if(e.keyCode==38){
       slit.increaseStep();
     } else if(e.keyCode==40){
@@ -158,9 +172,18 @@ function checkKey(e){
       console.log(FPS);
     } else if(e.keyCode==77){
       //m to change mode
-      slit.toggleProportional();
-    } else if(e,keyCode==73){
+      slit.changeMode();
+    } else if(e.keyCode==73){
       //show or hide instructions
+    } else if(e.keyCode==8){
+      slit.restart();
+      //show or hide instructions
+     } else if(e.keyCode==65){
+     toggleMute();
+      //a for toggle mute
+    } else if(e.keyCode==86){
+      toggleVideo();
     }
+
   }
 }

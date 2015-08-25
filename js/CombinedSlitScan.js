@@ -23,7 +23,7 @@ var CombinedSlitScan = class CombinedSlitScan {
     this.outIndex = 0;
     this.vidIndex = 0;
     this.remoteVolume = 0;
-    this.proportional = false;
+    this.mode = 0;
     document.body.insertBefore(canvas, document.body.firstChild);
     console.log("created slit scan");
     console.log(this);
@@ -35,6 +35,11 @@ var CombinedSlitScan = class CombinedSlitScan {
     //this.proportional = val;
     this.proportional = this.proportional == true  ? false : true;
     console.log(this.proportional);
+  }
+  changeMode(){
+    this.mode++;
+    if(this.mode > 2) this.mode=0;
+    console.log(this.mode);
   }
   addData(data){
     //console.log("remote vol is "+ data);
@@ -48,6 +53,11 @@ var CombinedSlitScan = class CombinedSlitScan {
   increaseStep(){
     STEP++;
     console.log(STEP);
+  }
+  restart(){
+    this.outIndex = 0;
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
   }
   decreaseStep(){
     STEP--;
@@ -68,14 +78,17 @@ var CombinedSlitScan = class CombinedSlitScan {
     this.vidIndex = this.video.videoWidth/2;
     var vidHeight = this.video.videoHeight;
    // console.log(vidHeight);
-   if(this.proportional){
+   if(this.mode==1){
     var tot = this.localVolume+ this.remoteVolume;
     var localHeight = HEIGHT*3*this.localVolume/tot;
      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, 0, STEP, localHeight);
       this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, localHeight, STEP, HEIGHT*3-localHeight);
-   } else {
+   } else if(this.mode == 0){
      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT*(1.5-this.localVolume/50), STEP, HEIGHT*this.localVolume/50);
       this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT*1.5, STEP, HEIGHT*this.remoteVolume/50);
+   } else {
+      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT*0.5, STEP, HEIGHT);
+      this.context.drawImage(this.remote, this.remote.videoWidth/2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT*1.5, STEP, HEIGHT);
    }
     
      

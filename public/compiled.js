@@ -124,7 +124,7 @@ var CombinedSlitScan = (function () {
     this.outIndex = 0;
     this.vidIndex = 0;
     this.remoteVolume = 0;
-    this.proportional = false;
+    this.mode = 0;
     document.body.insertBefore(canvas, document.body.firstChild);
     console.log("created slit scan");
     console.log(this);
@@ -139,6 +139,13 @@ var CombinedSlitScan = (function () {
       //this.proportional = val;
       this.proportional = this.proportional == true ? false : true;
       console.log(this.proportional);
+    }
+  }, {
+    key: "changeMode",
+    value: function changeMode() {
+      this.mode++;
+      if (this.mode > 2) this.mode = 0;
+      console.log(this.mode);
     }
   }, {
     key: "addData",
@@ -158,6 +165,12 @@ var CombinedSlitScan = (function () {
     value: function increaseStep() {
       STEP++;
       console.log(STEP);
+    }
+  }, {
+    key: "restart",
+    value: function restart() {
+      this.outIndex = 0;
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }, {
     key: "decreaseStep",
@@ -182,14 +195,17 @@ var CombinedSlitScan = (function () {
       this.vidIndex = this.video.videoWidth / 2;
       var vidHeight = this.video.videoHeight;
       // console.log(vidHeight);
-      if (this.proportional) {
+      if (this.mode == 1) {
         var tot = this.localVolume + this.remoteVolume;
         var localHeight = HEIGHT * 3 * this.localVolume / tot;
         this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, 0, STEP, localHeight);
         this.context.drawImage(this.remote, this.remote.videoWidth / 2, 0, STEP, this.remote.videoHeight, this.outIndex, localHeight, STEP, HEIGHT * 3 - localHeight);
-      } else {
+      } else if (this.mode == 0) {
         this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT * (1.5 - this.localVolume / 50), STEP, HEIGHT * this.localVolume / 50);
         this.context.drawImage(this.remote, this.remote.videoWidth / 2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT * 1.5, STEP, HEIGHT * this.remoteVolume / 50);
+      } else {
+        this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT * 0.5, STEP, HEIGHT);
+        this.context.drawImage(this.remote, this.remote.videoWidth / 2, 0, STEP, this.remote.videoHeight, this.outIndex, HEIGHT * 1.5, STEP, HEIGHT);
       }
 
       // // 77 draw alternating
@@ -405,10 +421,24 @@ function addFrame() {
   }, 1000 / FPS);
 }
 
+function toggleMute() {
+  var m = document.getElementById("remote-stream").muted;
+  document.getElementById("remote-stream").muted = m == true ? false : true;
+  console.log("muted " + document.getElementById("remote-stream").muted);
+}
+
+function toggleVideo() {
+  var v = document.getElementById("vid-container").style.visibility;
+  v = v == "hidden" ? "visible" : "hidden";
+  document.getElementById("vid-container").style.visibility = v;
+}
 function checkKey(e) {
   e = e || window.event;
-  e.preventDefault();
+
+  console.log(e);
   if (slit != null) {
+    e.preventDefault();
+    //arrow keys change step size
     if (e.keyCode == 38) {
       slit.increaseStep();
     } else if (e.keyCode == 40) {
@@ -427,10 +457,18 @@ function checkKey(e) {
       console.log(FPS);
     } else if (e.keyCode == 77) {
       //m to change mode
-      slit.toggleProportional();
-    } else if ((e, keyCode == 73)) {
+      slit.changeMode();
+    } else if (e.keyCode == 73) {
       //show or hide instructions
-    }
+    } else if (e.keyCode == 8) {
+        slit.restart();
+        //show or hide instructions
+      } else if (e.keyCode == 65) {
+          toggleMute();
+          //a for toggle mute
+        } else if (e.keyCode == 86) {
+            toggleVideo();
+          }
   }
 }
 

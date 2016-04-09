@@ -1,0 +1,109 @@
+<html>
+<head>
+  <title>SLIT SCAN</title>
+  <!---<link rel="stylesheet" href="style.css">-->
+  
+<style>
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 18px;
+}
+
+#landing {
+    width: 1000px;
+    height: 100px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+input{
+  background: none;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-family: "Courier New", Courier, monospace;
+  padding: 5px;
+  padding-left: 20px;
+  padding-bottom: 0px;
+   border-bottom: 1px dotted #fff;
+}
+
+button{
+  font-family: "Courier New", Courier, monospace;
+ display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 2px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-left: 20px;
+}
+
+button:hover
+ {
+  color: #333;
+  border-color: #ccc;
+  background-color: #ccc;
+  outline: 0; }
+
+label{
+ /* background-color: #fff;
+  color: #000;*/
+  padding: 5px;
+  padding-left: 20px;
+}
+
+#communication{
+  color: #CCFF66
+}
+
+#vid-container{
+  visibility: visible;
+}
+
+</style>
+</head>
+
+<body>
+<div id="landing">
+  <form>
+  <label>create new session: </label>
+  <input type="text" id="create-name" name="create" placeholder="name..">
+  <button id="go-create" type="button" >GO</button>
+  <br>
+   <br>
+   <label id="communication">
+</label>
+    <br>
+     <br>
+  <label>or join existing session: </label>
+  <input type="text" id="join-name" name="join" placeholder="name..">
+  <button id="go-join" type="button">GO</button>
+</form>
+</div>
+<div id="vid-container">
+ 
+        <video id="remote-stream" muted="false" autoplay></video>
+        <video id="local-stream" muted="true" autoplay></video>
+</div>
+  <script src="./compiled.js"></script>
+</body>
+</html>

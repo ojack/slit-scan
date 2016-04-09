@@ -51,7 +51,7 @@ document.onkeydown = checkKey;
     
     }
 function initHost(stream){
-    peer = new Peer(id, {key: peer_api_key, debug: 3});
+    peer = new Peer(id, {key: peer_api_key, debug: 3, secure: true});
                 console.log(peer);
            communication.innerHTML = "Created session '"+ id + "'. Waiting for someone else to join";
                 /*Data channel for sending extra info*/
@@ -82,7 +82,7 @@ function initHost(stream){
 }
 
 function initParticipant(stream){
-   peer = new Peer({key: peer_api_key, debug: 3});
+   peer = new Peer({key: peer_api_key, debug: 3, secure: true});
               dataChannel = peer.connect(id);
               dataChannel.on('open', function(){
                  dataChannel.send('hi!');

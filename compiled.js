@@ -1,5 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-<<<<<<< HEAD
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -102,19 +101,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var AudioProcessing = require('./AudioProcessing.js');
 
 var WIDTH = 20000;
-=======
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var WIDTH = 2000;
->>>>>>> master
 var HEIGHT = 200;
 var STEP = 1;
 var VID_STEP = 1;
@@ -122,7 +108,6 @@ var video;
 var context;
 
 var CombinedSlitScan = (function () {
-<<<<<<< HEAD
   function CombinedSlitScan(local_stream, remote_stream) {
     _classCallCheck(this, CombinedSlitScan);
 
@@ -131,13 +116,6 @@ var CombinedSlitScan = (function () {
     this.video.src = URL.createObjectURL(local_stream);
     this.remote = document.getElementById("remote-stream");
     this.remote.src = URL.createObjectURL(remote_stream);
-=======
-  function CombinedSlitScan(vid, remote_vid) {
-    _classCallCheck(this, CombinedSlitScan);
-
-    this.video = vid;
-    this.remote = remote_vid;
->>>>>>> master
     var canvas = document.createElement('canvas');
     this.context = canvas.getContext('2d');
     canvas.height = HEIGHT * 3;
@@ -145,7 +123,6 @@ var CombinedSlitScan = (function () {
     this.canvas = canvas;
     this.outIndex = 0;
     this.vidIndex = 0;
-<<<<<<< HEAD
     this.remoteVolume = 0;
     this.mode = 0;
     document.body.insertBefore(canvas, document.body.firstChild);
@@ -203,22 +180,12 @@ var CombinedSlitScan = (function () {
     }
   }, {
     key: "addFrame",
-=======
-    document.body.insertBefore(canvas, document.body.firstChild);
-    console.log("created slit scan");
-    console.log(this);
-  }
-
-  _createClass(CombinedSlitScan, [{
-    key: 'addFrame',
->>>>>>> master
     value: function addFrame() {
       //.log(this);
       //console.log(this.video);
       //console.log(this.context);
       //console.log(video.videoWidth);
       //console.log(this);
-<<<<<<< HEAD
       // var locVol =
 
       //console.log(" local 0" + this.localVolume + " remote "+ this.remoteVolume);
@@ -248,20 +215,6 @@ var CombinedSlitScan = (function () {
 
       // // 77 draw alternating
 
-=======
-      this.vidIndex = this.video.videoWidth / 2;
-      var vidHeight = this.video.videoHeight;
-      console.log(vidHeight);
-      this.context.drawImage(this.video, this.vidIndex, 0, STEP, vidHeight, this.outIndex, 0, STEP, HEIGHT);
-      this.context.drawImage(this.remote, this.vidIndex, 0, STEP, vidHeight, this.outIndex, HEIGHT, STEP, HEIGHT);
-
-      if (this.outIndex % 2 == 0) {
-        this.context.drawImage(this.canvas, this.outIndex, 0, STEP, HEIGHT, this.outIndex, HEIGHT * 2, STEP, HEIGHT);
-      } else {
-        this.context.drawImage(this.canvas, this.outIndex, HEIGHT, STEP, HEIGHT, this.outIndex, HEIGHT * 2, STEP, HEIGHT);
-      }
-
->>>>>>> master
       this.outIndex += STEP;
       // vidIndex += VID_STEP;
       if (this.outIndex > WIDTH) this.outIndex = 0;
@@ -276,17 +229,10 @@ var CombinedSlitScan = (function () {
   return CombinedSlitScan;
 })();
 
-<<<<<<< HEAD
 exports["default"] = CombinedSlitScan;
 module.exports = exports["default"];
 
 },{"./AudioProcessing.js":1}],3:[function(require,module,exports){
-=======
-exports['default'] = CombinedSlitScan;
-module.exports = exports['default'];
-
-},{}],2:[function(require,module,exports){
->>>>>>> master
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -347,17 +293,12 @@ var SlitScan = (function () {
 exports['default'] = SlitScan;
 module.exports = exports['default'];
 
-<<<<<<< HEAD
 },{}],4:[function(require,module,exports){
-=======
-},{}],3:[function(require,module,exports){
->>>>>>> master
 'use strict';
 
 var Peer = require('peerjs');
 var SlitScan = require('./js/SlitScan.js');
 var CombinedSlitScan = require('./js/CombinedSlitScan.js');
-<<<<<<< HEAD
 var FPS = 10;
 
 var peer_api_key = '00gwj72654mfgvi';
@@ -406,7 +347,7 @@ function initLocalStream() {
   });
 }
 function initHost(stream) {
-  peer = new Peer(id, { key: peer_api_key, debug: 3 });
+  peer = new Peer(id, { key: peer_api_key, debug: 3, secure: true });
   console.log(peer);
   communication.innerHTML = "Created session '" + id + "'. Waiting for someone else to join";
   /*Data channel for sending extra info*/
@@ -433,7 +374,7 @@ function initHost(stream) {
 }
 
 function initParticipant(stream) {
-  peer = new Peer({ key: peer_api_key, debug: 3 });
+  peer = new Peer({ key: peer_api_key, debug: 3, secure: true });
   dataChannel = peer.connect(id);
   dataChannel.on('open', function () {
     dataChannel.send('hi!');
@@ -532,107 +473,6 @@ function checkKey(e) {
 }
 
 },{"./js/CombinedSlitScan.js":2,"./js/SlitScan.js":3,"peerjs":9}],5:[function(require,module,exports){
-=======
-
-var slit;
-// Compatibility shim
-navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-// PeerJS object
-var peer = new Peer({ key: '00gwj72654mfgvi', debug: 3 });
-
-peer.on('open', function () {
-  $('#my-id').text(peer.id);
-});
-
-// Receiving a call
-peer.on('call', function (call) {
-  // Answer the call automatically (instead of prompting user) for demo purposes
-  call.answer(window.localStream);
-  step3(call);
-});
-peer.on('error', function (err) {
-  alert(err.message);
-  // Return to step 2 if error occurs
-  step2();
-});
-
-// Click handlers setup
-$(function () {
-  $('#make-call').click(function () {
-    // Initiate a call!
-    var call = peer.call($('#callto-id').val(), window.localStream);
-
-    step3(call);
-  });
-
-  $('#end-call').click(function () {
-    window.existingCall.close();
-    step2();
-  });
-
-  // Retry if getUserMedia fails
-  $('#step1-retry').click(function () {
-    $('#step1-error').hide();
-    step1();
-  });
-
-  // Get things started
-  step1();
-});
-
-function step1() {
-  // Get audio/video stream
-  navigator.getUserMedia({ audio: false, video: true }, function (stream) {
-    // Set your video displays
-    $('#my-video').prop('src', URL.createObjectURL(stream));
-
-    slit = new SlitScan(document.getElementById('my-video'));
-    window.localStream = stream;
-    step2();
-    render();
-  }, function () {
-    $('#step1-error').show();
-  });
-}
-
-function render() {
-
-  setTimeout(function () {
-    requestAnimationFrame(render);
-    slit.addFrame();
-    // Drawing code goes here
-  }, 10);
-}
-
-function step2() {
-  $('#step1, #step3').hide();
-  $('#step2').show();
-}
-
-function step3(call) {
-  // Hang up on an existing call if present
-  if (window.existingCall) {
-    window.existingCall.close();
-  }
-
-  // Wait for stream on the call, then set peer video display
-  call.on('stream', function (stream) {
-    $('#their-video').prop('src', URL.createObjectURL(stream));
-  });
-
-  // UI stuff
-  window.existingCall = call;
-  $('#their-id').text(call.peer);
-  call.on('close', step2);
-  $('#step1, #step2').hide();
-  $('#step3').show();
-
-  //  var slit = new SlitScan();
-}
-
-},{"./js/CombinedSlitScan.js":1,"./js/SlitScan.js":2,"peerjs":8}],4:[function(require,module,exports){
->>>>>>> master
 module.exports.RTCSessionDescription = window.RTCSessionDescription ||
 	window.mozRTCSessionDescription;
 module.exports.RTCPeerConnection = window.RTCPeerConnection ||
@@ -640,11 +480,7 @@ module.exports.RTCPeerConnection = window.RTCPeerConnection ||
 module.exports.RTCIceCandidate = window.RTCIceCandidate ||
 	window.mozRTCIceCandidate;
 
-<<<<<<< HEAD
 },{}],6:[function(require,module,exports){
-=======
-},{}],5:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 var EventEmitter = require('eventemitter3');
 var Negotiator = require('./negotiator');
@@ -913,11 +749,7 @@ DataConnection.prototype.handleMessage = function(message) {
 
 module.exports = DataConnection;
 
-<<<<<<< HEAD
 },{"./negotiator":8,"./util":11,"eventemitter3":12,"reliable":15}],7:[function(require,module,exports){
-=======
-},{"./negotiator":7,"./util":10,"eventemitter3":11,"reliable":14}],6:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 var EventEmitter = require('eventemitter3');
 var Negotiator = require('./negotiator');
@@ -1014,11 +846,7 @@ MediaConnection.prototype.close = function() {
 
 module.exports = MediaConnection;
 
-<<<<<<< HEAD
 },{"./negotiator":8,"./util":11,"eventemitter3":12}],8:[function(require,module,exports){
-=======
-},{"./negotiator":7,"./util":10,"eventemitter3":11}],7:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 var RTCPeerConnection = require('./adapter').RTCPeerConnection;
 var RTCSessionDescription = require('./adapter').RTCSessionDescription;
@@ -1329,11 +1157,7 @@ Negotiator.handleCandidate = function(connection, ice) {
 
 module.exports = Negotiator;
 
-<<<<<<< HEAD
 },{"./adapter":5,"./util":11}],9:[function(require,module,exports){
-=======
-},{"./adapter":4,"./util":10}],8:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 var EventEmitter = require('eventemitter3');
 var Socket = require('./socket');
@@ -1832,11 +1656,7 @@ Peer.prototype.listAllPeers = function(cb) {
 
 module.exports = Peer;
 
-<<<<<<< HEAD
 },{"./dataconnection":6,"./mediaconnection":7,"./socket":10,"./util":11,"eventemitter3":12}],10:[function(require,module,exports){
-=======
-},{"./dataconnection":5,"./mediaconnection":6,"./socket":9,"./util":10,"eventemitter3":11}],9:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 var EventEmitter = require('eventemitter3');
 
@@ -2052,11 +1872,7 @@ Socket.prototype.close = function() {
 
 module.exports = Socket;
 
-<<<<<<< HEAD
 },{"./util":11,"eventemitter3":12}],11:[function(require,module,exports){
-=======
-},{"./util":10,"eventemitter3":11}],10:[function(require,module,exports){
->>>>>>> master
 var defaultConfig = {'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }]};
 var dataCount = 1;
 
@@ -2372,11 +2188,7 @@ var util = {
 
 module.exports = util;
 
-<<<<<<< HEAD
 },{"./adapter":5,"js-binarypack":13}],12:[function(require,module,exports){
-=======
-},{"./adapter":4,"js-binarypack":12}],11:[function(require,module,exports){
->>>>>>> master
 'use strict';
 
 /**
@@ -2607,11 +2419,7 @@ EventEmitter.EventEmitter3 = EventEmitter;
 //
 module.exports = EventEmitter;
 
-<<<<<<< HEAD
 },{}],13:[function(require,module,exports){
-=======
-},{}],12:[function(require,module,exports){
->>>>>>> master
 var BufferBuilder = require('./bufferbuilder').BufferBuilder;
 var binaryFeatures = require('./bufferbuilder').binaryFeatures;
 
@@ -3132,11 +2940,7 @@ function utf8Length(str){
   }
 }
 
-<<<<<<< HEAD
 },{"./bufferbuilder":14}],14:[function(require,module,exports){
-=======
-},{"./bufferbuilder":13}],13:[function(require,module,exports){
->>>>>>> master
 var binaryFeatures = {};
 binaryFeatures.useBlobBuilder = (function(){
   try {
@@ -3202,11 +3006,7 @@ BufferBuilder.prototype.getBuffer = function() {
 
 module.exports.BufferBuilder = BufferBuilder;
 
-<<<<<<< HEAD
 },{}],15:[function(require,module,exports){
-=======
-},{}],14:[function(require,module,exports){
->>>>>>> master
 var util = require('./util');
 
 /**
@@ -3526,11 +3326,7 @@ Reliable.prototype.onmessage = function(msg) {};
 
 module.exports.Reliable = Reliable;
 
-<<<<<<< HEAD
 },{"./util":16}],16:[function(require,module,exports){
-=======
-},{"./util":15}],15:[function(require,module,exports){
->>>>>>> master
 var BinaryPack = require('js-binarypack');
 
 var util = {
@@ -3627,8 +3423,4 @@ var util = {
 
 module.exports = util;
 
-<<<<<<< HEAD
 },{"js-binarypack":13}]},{},[4]);
-=======
-},{"js-binarypack":12}]},{},[3]);
->>>>>>> master
